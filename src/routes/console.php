@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * Esse arquivo faz parte do teste técnico da empresa Checklist Fácil.
+ *
+ * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
+ */
+
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 

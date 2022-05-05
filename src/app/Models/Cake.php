@@ -6,11 +6,12 @@
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  */
 
-namespace Tests;
+namespace App\Models;
 
-use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-abstract class TestCase extends BaseTestCase
+class Cake extends Model
 {
-    use CreatesApplication;
+    use HasFactory;
 }
