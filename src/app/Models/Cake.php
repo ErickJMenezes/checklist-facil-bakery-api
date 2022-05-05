@@ -10,8 +10,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Cake extends Model
 {
     use HasFactory;
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<\App\Models\User>
+     * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+     */
+    public function solicitations(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            User::class,
+            CakeSolicitation::class,
+        );
+    }
 }

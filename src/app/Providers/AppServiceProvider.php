@@ -13,12 +13,12 @@ use OpenApi\Attributes as OA;
 
 #[OA\Info(
     version: '1.0.0',
-    description: 'Microserviço para cadastro de bolos e envio de emails.',
-    title: 'Checklist Fácil Bolos API',
+    description: 'Microserviço para crud de bolos e envio de emails para solicitantes.',
+    title: 'Checklist Fácil - API Bolos',
 )]
 #[OA\Server(
-    url: 'https://localhost/api',
-    description: 'API base url'
+    url: 'http://localhost/api',
+    description: 'URL base da API'
 )]
 class AppServiceProvider extends ServiceProvider
 {

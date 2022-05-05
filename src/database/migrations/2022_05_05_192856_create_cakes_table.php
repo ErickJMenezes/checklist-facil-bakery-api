@@ -20,7 +20,11 @@ return new class () extends Migration {
     {
         Schema::create('cakes', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('name')->comment('Nome do bolo.');
+            $table->integer('weight_in_grams')->comment('Peso em gramas.');
+            $table->integer('price')->comment('Preço do bolo. Esse valor é guardado como um inteiro.');
+            $table->integer('quantity')->comment('Quantidade disponível.');
+            $table->timestampsTz();
         });
     }
 

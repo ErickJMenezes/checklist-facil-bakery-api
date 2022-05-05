@@ -6,7 +6,9 @@
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  */
 
-use App\Http\Controllers\Api\SwaggerController;
+use App\Http\Controllers\Api\V1\CakesController;
+use App\Http\Controllers\Api\V1\CakeSolicitationsController;
+use App\Http\Controllers\Api\V1\SwaggerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,4 +26,11 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::get('/swagger', SwaggerController::class);
+Route::group(['prefix' => 'v1'], function () {
+    Route::get('/swagger', SwaggerController::class)->name('v1.swagger');
+
+
+    Route::apiResource('cakes', CakesController::class);
+    Route::apiResource('cakes.solicitations', CakeSolicitationsController::class)
+        ->only(['index', 'store', 'destroy']);
+});
