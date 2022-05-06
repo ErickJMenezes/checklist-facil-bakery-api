@@ -1,10 +1,15 @@
 <?php
 
+/*
+ * Esse arquivo faz parte do teste técnico da empresa Checklist Fácil.
+ *
+ * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
+ */
+
 namespace App\Http\Requests\Api\V1\CakesController;
 
 use Illuminate\Foundation\Http\FormRequest;
 use OpenApi\Attributes as OA;
-
 
 /**
  * Class CakeStoreRequest.

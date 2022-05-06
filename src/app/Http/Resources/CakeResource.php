@@ -1,10 +1,15 @@
 <?php
 
+/*
+ * Esse arquivo faz parte do teste técnico da empresa Checklist Fácil.
+ *
+ * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
+ */
+
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use OpenApi\Attributes as OA;
-
 
 /**
  * Class CakeResource.

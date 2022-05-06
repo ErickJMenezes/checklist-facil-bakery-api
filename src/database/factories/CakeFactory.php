@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * Esse arquivo faz parte do teste técnico da empresa Checklist Fácil.
+ *
+ * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
+ */
+
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
