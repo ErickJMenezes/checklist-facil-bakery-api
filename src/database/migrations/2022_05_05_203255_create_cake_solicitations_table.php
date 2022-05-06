@@ -15,13 +15,9 @@ return new class extends Migration
     {
         Schema::create('cake_solicitations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->string('email');
             $table->unsignedBigInteger('cake_id');
             $table->timestampsTz();
-
-            $table->foreign('user_id')
-                ->references('id')
-                ->on('users');
 
             $table->foreign('cake_id')
                 ->references('id')

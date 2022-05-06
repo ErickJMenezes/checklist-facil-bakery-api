@@ -10,7 +10,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use OwenIt\Auditing\Contracts\Auditable;
 
 /**
@@ -26,14 +26,11 @@ class Cake extends Model implements Auditable
     protected $guarded = [];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<\App\Models\User>
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<\App\Models\CakeSolicitation>
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
-    public function solicitations(): BelongsToMany
+    public function solicitations(): HasMany
     {
-        return $this->belongsToMany(
-            User::class,
-            CakeSolicitation::class,
-        );
+        return $this->hasMany(CakeSolicitation::class);
     }
 }
