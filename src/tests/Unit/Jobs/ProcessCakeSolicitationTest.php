@@ -26,6 +26,8 @@ class ProcessCakeSolicitationTest extends TestCase
         $job = new ProcessCakeSolicitation($cake, 'foo@bar.com');
         $job->handle();
         Notification::assertSentOnDemandTimes(CakeRequestedNotification::class);
+        $cake->refresh();
+        self::assertEquals(0, $cake->quantity);
     }
 
     public function test_it_must_send_the_cake_out_of_stock_notification(): void

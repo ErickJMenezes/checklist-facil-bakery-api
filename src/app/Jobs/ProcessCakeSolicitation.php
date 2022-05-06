@@ -53,13 +53,19 @@ class ProcessCakeSolicitation implements ShouldQueue, ShouldBeUnique
     {
         $this->cake->refresh();
         if ($this->cake->quantity > 0) {
-            $this->cake->solicitations()
-                ->create([
-                    'email' => $this->email,
-                ]);
+            DB::transaction(function () {
+                $this->cake->lockForUpdate()->update(['quantity' => $this->cake->quantity - 1]);
+                $this->cake->solicitations()
+                    ->create([
+                        'email' => $this->email,
+                    ]);
+            });
 
             Notification::route('mail', $this->email)
-                ->notify(new CakeRequestedNotification($this->cake->name));
+                ->notify(new CakeRequestedNotification(
+                    $this->cake->name,
+                        $this->cake->price,
+                ));
         } else {
             Notification::route('mail', $this->email)
                 ->notify(new CakeOutOfStockNotification($this->cake->name));
