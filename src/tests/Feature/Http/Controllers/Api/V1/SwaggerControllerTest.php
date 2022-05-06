@@ -19,9 +19,9 @@ class SwaggerControllerTest extends TestCase
      * @test
      * @covers \App\Http\Controllers\Api\V1\SwaggerController
      */
-    public function itMustReturnTheOpenApiSpecInJsonFormat(): void
+    public function it_must_download_the_openapi_file(): void
     {
-        $this->getJson(route('v1.swagger'))
+        $this->getJson(route('api.v1.swagger'))
             ->assertDownload('swagger.json');
     }
 }

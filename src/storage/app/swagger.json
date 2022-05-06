@@ -7,7 +7,7 @@
     },
     "servers": [
         {
-            "url": "http://localhost/api",
+            "url": "http://localhost/api/v1/",
             "description": "URL base da API"
         }
     ],
@@ -37,7 +37,7 @@
                     "$ref": "#/components/requestBodies/CakeStoreRequest"
                 },
                 "responses": {
-                    "200": {
+                    "201": {
                         "$ref": "#/components/responses/CakeItemResponse"
                     },
                     "422": {
@@ -110,7 +110,7 @@
                     "Bolos"
                 ],
                 "summary": "Update the specified resource in storage.",
-                "description": "Atualiza um bolo pelo ID.",
+                "description": "Atualiza um bolo pelo ID. Apenas os campos que forem enviados serão atualizados.",
                 "operationId": "updateCakeById",
                 "parameters": [
                     {
@@ -286,13 +286,13 @@
                         "title": "created_at",
                         "type": "string",
                         "format": "date-time-tz",
-                        "example": "2020-01-01T00:00:00+00:00"
+                        "example": "2020-01-01T00:00:00.000000Z"
                     },
                     "updated_at": {
                         "title": "updated_at",
                         "type": "string",
                         "format": "date-time-tz",
-                        "example": "2020-01-01T00:00:00+00:00"
+                        "example": "2020-01-01T00:00:00.000000Z"
                     },
                     "solicitations": {
                         "type": "array",
@@ -316,13 +316,13 @@
                         "title": "created_at",
                         "type": "string",
                         "format": "date-time-tz",
-                        "example": "2020-01-01T00:00:00+00:00"
+                        "example": "2020-01-01T00:00:00.000000Z"
                     },
                     "updated_at": {
                         "title": "updated_at",
                         "type": "string",
                         "format": "date-time-tz",
-                        "example": "2020-01-01T00:00:00+00:00"
+                        "example": "2020-01-01T00:00:00.000000Z"
                     }
                 },
                 "type": "object"

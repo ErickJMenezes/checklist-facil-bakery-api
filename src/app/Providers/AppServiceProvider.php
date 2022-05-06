@@ -17,7 +17,7 @@ use OpenApi\Attributes as OA;
     title: 'Checklist Fácil - API Bolos',
 )]
 #[OA\Server(
-    url: 'http://localhost/api',
+    url: 'http://localhost/api/v1/',
     description: 'URL base da API'
 )]
 #[OA\Response(

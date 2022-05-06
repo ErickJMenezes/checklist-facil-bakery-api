@@ -55,14 +55,14 @@ use OpenApi\Attributes as OA;
             title: 'created_at',
             type: 'string',
             format: 'date-time-tz',
-            example: '2020-01-01T00:00:00+00:00',
+            example: '2020-01-01T00:00:00.000000Z',
         ),
         new OA\Property(
             property: 'updated_at',
             title: 'updated_at',
             type: 'string',
             format: 'date-time-tz',
-            example: '2020-01-01T00:00:00+00:00',
+            example: '2020-01-01T00:00:00.000000Z',
         ),
         new OA\Property(
             property: 'solicitations',
@@ -74,6 +74,8 @@ use OpenApi\Attributes as OA;
 )]
 class CakeResource extends JsonResource
 {
+    public static $wrap = null;
+
     /**
      * Transform the resource into an array.
      *

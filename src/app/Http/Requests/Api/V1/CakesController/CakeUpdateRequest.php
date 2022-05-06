@@ -34,7 +34,7 @@ class CakeUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -45,10 +45,10 @@ class CakeUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'string|max:255|nullable',
-            'price' => 'numeric|nullable',
-            'weight_in_grams' => 'numeric|nullable',
-            'quantity' => 'integer|nullable',
+            'name' => 'string|max:255',
+            'price' => 'numeric',
+            'weight_in_grams' => 'numeric',
+            'quantity' => 'integer',
         ];
     }
 }

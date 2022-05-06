@@ -66,7 +66,7 @@ class CakesControllerTest extends TestCase
 
     public function test_show_must_return_the_expected_resource(): void
     {
-        $cake = Cake::factory(1)->create();
+        $cake = Cake::factory()->create();
         $this->getJson(route('api.v1.cakes.show', $cake->id))
             ->assertStatus(200)
             ->assertJsonStructure([
@@ -84,9 +84,6 @@ class CakesControllerTest extends TestCase
                         'updated_at',
                     ],
                 ],
-            ])
-            ->assertJsonFragment([
-                'id' => $cake->id,
             ]);
     }
 
@@ -100,9 +97,14 @@ class CakesControllerTest extends TestCase
     {
         $this->postJson(
             route('api.v1.cakes.store'),
-            Cake::factory(1)->make()->toArray()
+            [
+                'name' => 'Bolo de Chocolate',
+                'price' => 10.00,
+                'quantity' => 10,
+                'weight_in_grams' => 1000,
+            ],
         )
-            ->assertStatus(202);
+            ->assertStatus(201);
     }
 
     public function test_store_must_return_validation_errors(): void
@@ -127,10 +129,15 @@ class CakesControllerTest extends TestCase
 
     public function test_update_must_return_the_updated_resource_when_the_update_action_was_performed(): void
     {
-        $cake = Cake::factory(1)->create();
+        $cake = Cake::factory()->create();
         $this->patchJson(
             route('api.v1.cakes.update', $cake->id),
-            Cake::factory(1)->make()->only(['name', 'price', 'quantity'])->toArray()
+            [
+                'name' => 'Bolo de Chocolate',
+                'price' => 10.00,
+                'quantity' => 10,
+                'weight_in_grams' => 1000,
+            ]
         )
             ->assertStatus(200)
             ->assertJsonStructure([
@@ -146,7 +153,7 @@ class CakesControllerTest extends TestCase
 
     public function test_update_must_return_validation_errors_when_the_given_data_is_invalid(): void
     {
-        $cake = Cake::factory(1)->create();
+        $cake = Cake::factory()->create();
         $this->patchJson(
             route('api.v1.cakes.update', $cake->id),
             [
@@ -173,18 +180,14 @@ class CakesControllerTest extends TestCase
 
     public function test_destroy_must_return_200_when_the_resource_was_deleted(): void
     {
-        $cake = Cake::factory(1)->create();
-        $this->deleteJson(
-            route('api.v1.cakes.destroy', $cake->id)
-        )
+        $cake = Cake::factory()->create();
+        $this->deleteJson(route('api.v1.cakes.destroy', $cake->id))
             ->assertStatus(200);
     }
 
     public function test_destroy_must_return_404_when_the_resource_does_not_exists(): void
     {
-        $this->deleteJson(
-            route('api.v1.cakes.destroy', 999999)
-        )
+        $this->deleteJson(route('api.v1.cakes.destroy', 999999))
             ->assertStatus(404);
     }
 }

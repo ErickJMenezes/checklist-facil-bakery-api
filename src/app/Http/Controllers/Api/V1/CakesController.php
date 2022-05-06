@@ -11,8 +11,10 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\CakesController\CakeStoreRequest;
 use App\Http\Requests\Api\V1\CakesController\CakeUpdateRequest;
+use App\Http\Resources\CakeResource;
 use App\Models\Cake;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use OpenApi\Attributes as OA;
 
 /**
@@ -93,7 +95,7 @@ class CakesController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     #[OA\Get(
         path: '/cakes',
@@ -107,9 +109,9 @@ class CakesController extends Controller
             )
         ]
     )]
-    public function index(): JsonResponse
+    public function index(): AnonymousResourceCollection
     {
-        return response()->json();
+        return CakeResource::collection(Cake::with('solicitations')->paginate(20));
     }
 
     /**
@@ -130,7 +132,7 @@ class CakesController extends Controller
         responses: [
             new OA\Response(
                 ref: '#/components/responses/CakeItemResponse',
-                response: 202,
+                response: 201,
             ),
             new OA\Response(
                 ref: '#/components/responses/UnprocessableEntity',
@@ -140,7 +142,10 @@ class CakesController extends Controller
     )]
     public function store(CakeStoreRequest $request): JsonResponse
     {
-        return response()->json();
+        $cake = Cake::create($request->validated());
+        return CakeResource::make($cake)
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**
@@ -181,7 +186,8 @@ class CakesController extends Controller
     )]
     public function show(Cake $cake): JsonResponse
     {
-        return response()->json();
+        $cake->load('solicitations');
+        return CakeResource::make($cake)->response();
     }
 
     /**
@@ -190,12 +196,12 @@ class CakesController extends Controller
      * @param \App\Http\Requests\Api\V1\CakesController\CakeUpdateRequest $request
      * @param \App\Models\Cake                                            $cake
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \App\Http\Resources\CakeResource
      */
     #[OA\Patch(
         path: '/cakes/{id}',
         operationId: 'updateCakeById',
-        description: 'Atualiza um bolo pelo ID.',
+        description: 'Atualiza um bolo pelo ID. Apenas os campos que forem enviados serão atualizados.',
         requestBody: new OA\RequestBody(
             ref: '#/components/requestBodies/CakeUpdateRequest'
         ),
@@ -229,9 +235,11 @@ class CakesController extends Controller
             )
         ]
     )]
-    public function update(CakeUpdateRequest $request, Cake $cake): JsonResponse
+    public function update(CakeUpdateRequest $request, Cake $cake): CakeResource
     {
-        return response()->json();
+        $cake->update($request->validated());
+        $cake->load('solicitations');
+        return new CakeResource($cake);
     }
 
     /**
@@ -272,6 +280,7 @@ class CakesController extends Controller
     )]
     public function destroy(Cake $cake): JsonResponse
     {
+        $cake->delete();
         return response()->json();
     }
 }
