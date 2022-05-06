@@ -9,8 +9,6 @@
 namespace Tests\Feature\Http\Controllers\Api\V1;
 
 use App\Jobs\ProcessCakeSolicitation;
-use App\Mail\CakeOutOfStockMail;
-use App\Mail\CakeRequestedMail;
 use App\Models\Cake;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -52,16 +50,14 @@ class CakeSolicitationsControllerTest extends TestCase
 
         $cake = Cake::factory()->create();
 
-        for ($i = 0; $i < 1000; $i++) {
-            $this->postJson(route('api.v1.cakes.solicitations.store', $cake->id), [
-                    'email' => $this->faker->email
-                ])
-                ->assertStatus(202)
-                ->assertJson([
-                    'message' => trans('cake.successfullyRequested')
-                ]);
-        }
+        $this->postJson(route('api.v1.cakes.solicitations.store', $cake->id), [
+            'email' => $this->faker->email
+        ])
+            ->assertStatus(202)
+            ->assertJson([
+                'message' => trans('cake.successfullyRequested')
+            ]);
 
-        Bus::assertDispatchedTimes(ProcessCakeSolicitation::class, 1000);
+        Bus::assertDispatched(ProcessCakeSolicitation::class);
     }
 }
