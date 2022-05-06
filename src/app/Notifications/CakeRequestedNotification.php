@@ -24,6 +24,7 @@ class CakeRequestedNotification extends Notification implements ShouldQueue
      */
     public function __construct(
         private string $cakeName,
+        private float $price,
     ) {
         //
     }
@@ -47,7 +48,11 @@ class CakeRequestedNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
+        $price = number_format($this->price, 2, ',', '.');
         return (new MailMessage())
-                    ->line("Olá, recebemos a sua solicitação de bolo \"$this->cakeName\".");
+            ->subject('Pedido de bolo')
+            ->greeting('Olá!')
+            ->line("Recebemos a sua solicitação de bolo \"$this->cakeName\", no valor de R$ $price.")
+            ->salutation("Atenciosamente,\nEquipe Checklist Fácil");
     }
 }

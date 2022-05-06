@@ -48,6 +48,9 @@ class CakeOutOfStockNotification extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage())
-            ->line("Olá, infelizmente nosso estoque de bolo \"$this->cakeName\" acabou :(");
+            ->subject('Pedido de bolo')
+            ->greeting('Olá!')
+            ->line("Infelizmente nosso estoque de bolo \"$this->cakeName\" acabou :(")
+            ->salutation("Atenciosamente,\nEquipe Checklist Fácil");
     }
 }
