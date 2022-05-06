@@ -12,6 +12,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * Class Cake.
+ *
+ * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+ */
 class Cake extends Model
 {
     use HasFactory;

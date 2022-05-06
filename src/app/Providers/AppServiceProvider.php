@@ -20,6 +20,23 @@ use OpenApi\Attributes as OA;
     url: 'http://localhost/api',
     description: 'URL base da API'
 )]
+#[OA\Response(
+    response: 'UnprocessableEntity',
+    description: 'Erros de validação',
+    content: [
+        new OA\MediaType(
+            mediaType: 'Appplication/json',
+            example: [
+                'message' => 'The error message',
+                'errors' => [
+                    'field_name' => [
+                        'Validation error message.'
+                    ],
+                ]
+            ]
+        )
+    ]
+)]
 class AppServiceProvider extends ServiceProvider
 {
     /**
