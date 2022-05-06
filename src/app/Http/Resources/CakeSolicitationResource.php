@@ -12,21 +12,29 @@ use OpenApi\Attributes as OA;
  * @mixin \App\Models\CakeSolicitation
  */
 #[OA\Schema(
+    schema: 'CakeSolicitationResource',
     title: 'CakeSolicitation',
     description: 'Cake Solicitation Model',
     properties: [
-        new OA\Property(
-            property: 'id',
-            description: 'Cake Solicitation ID',
-            type: 'integer',
-            format: 'int64',
-            example: 1,
-        ),
         new OA\Property(
             property: 'email',
             description: 'Cake Solicitation Email',
             type: 'string',
             example: 'foo@example.com',
+        ),
+        new OA\Property(
+            property: 'created_at',
+            title: 'created_at',
+            type: 'string',
+            format: 'date-time-tz',
+            example: '2020-01-01T00:00:00+00:00',
+        ),
+        new OA\Property(
+            property: 'updated_at',
+            title: 'updated_at',
+            type: 'string',
+            format: 'date-time-tz',
+            example: '2020-01-01T00:00:00+00:00',
         ),
     ],
     type: 'object'
@@ -43,6 +51,8 @@ class CakeSolicitationResource extends JsonResource
         return [
             'id' => $this->id,
             'email' => $this->email,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 }

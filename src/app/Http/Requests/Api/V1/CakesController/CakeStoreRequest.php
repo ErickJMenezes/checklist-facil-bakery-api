@@ -66,7 +66,7 @@ class CakeStoreRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -76,13 +76,13 @@ class CakeStoreRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'name' => 'required|string|max:255',
             'price' => 'required|numeric',
             'weight_in_grams' => 'required|numeric',
-            'quantity' => 'required|numeric',
+            'quantity' => 'required|integer',
         ];
     }
 }

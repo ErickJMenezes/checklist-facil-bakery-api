@@ -39,7 +39,10 @@ class CakeUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'string|max:255|nullable',
+            'price' => 'numeric|nullable',
+            'weight_in_grams' => 'numeric|nullable',
+            'quantity' => 'integer|nullable',
         ];
     }
 }

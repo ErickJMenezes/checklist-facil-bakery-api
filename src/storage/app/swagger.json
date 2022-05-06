@@ -20,17 +20,6 @@
                 "summary": "Display a listing of the resource.",
                 "description": "Obtém todos os bolos disponíveis.",
                 "operationId": "getCakes",
-                "parameters": [
-                    {
-                        "parameter": "name",
-                        "name": "name",
-                        "in": "query",
-                        "description": "Filtra bolos onde contém o nome informado.",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
                 "responses": {
                     "200": {
                         "$ref": "#/components/responses/CakeItemCollectionResponse"
@@ -155,6 +144,86 @@
     },
     "components": {
         "schemas": {
+            "PaginationLinks": {
+                "description": "Pagination links",
+                "properties": {
+                    "first": {
+                        "description": "First page",
+                        "type": "string",
+                        "format": "uri",
+                        "example": "http://localhost/api/v1/cakes?page=1"
+                    },
+                    "last": {
+                        "description": "Last page",
+                        "type": "string",
+                        "format": "uri",
+                        "example": "http://localhost/api/v1/cakes?page=2"
+                    },
+                    "next": {
+                        "description": "Next page",
+                        "type": "string",
+                        "format": "uri",
+                        "example": "http://localhost/api/v1/cakes?page=2",
+                        "nullable": true
+                    },
+                    "prev": {
+                        "description": "Previous page",
+                        "type": "string",
+                        "format": "uri",
+                        "example": "http://localhost/api/v1/cakes?page=1",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "PaginationMeta": {
+                "description": "Pagination meta",
+                "properties": {
+                    "current_page": {
+                        "description": "Current page",
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 1
+                    },
+                    "last_page": {
+                        "description": "Last page",
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 2
+                    },
+                    "from": {
+                        "description": "From",
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 1
+                    },
+                    "to": {
+                        "description": "To",
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 2
+                    },
+                    "per_page": {
+                        "description": "Per page",
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 2
+                    },
+                    "total": {
+                        "description": "Total",
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 4
+                    },
+                    "path": {
+                        "description": "Path",
+                        "type": "string",
+                        "format": "uri",
+                        "example": "http://localhost/api/v1/cakes?page=1"
+                    }
+                },
+                "type": "object"
+            },
             "CakeUpdateOrStoreRequestPayload": {
                 "description": "Class CakeStoreRequest.",
                 "properties": {
@@ -224,6 +293,12 @@
                         "type": "string",
                         "format": "date-time-tz",
                         "example": "2020-01-01T00:00:00+00:00"
+                    },
+                    "solicitations": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CakeSolicitationResource"
+                        }
                     }
                 },
                 "type": "object"
@@ -232,46 +307,128 @@
                 "title": "CakeSolicitation",
                 "description": "Cake Solicitation Model",
                 "properties": {
-                    "id": {
-                        "description": "Cake Solicitation ID",
-                        "type": "integer",
-                        "format": "int64",
-                        "example": 1
-                    },
                     "email": {
                         "description": "Cake Solicitation Email",
                         "type": "string",
                         "example": "foo@example.com"
+                    },
+                    "created_at": {
+                        "title": "created_at",
+                        "type": "string",
+                        "format": "date-time-tz",
+                        "example": "2020-01-01T00:00:00+00:00"
+                    },
+                    "updated_at": {
+                        "title": "updated_at",
+                        "type": "string",
+                        "format": "date-time-tz",
+                        "example": "2020-01-01T00:00:00+00:00"
                     }
                 },
                 "type": "object"
             }
         },
         "responses": {
+            "CakeSolicitationCollectionResponse": {
+                "description": "Lista de solicitações de bolos",
+                "content": {
+                    "Appplication/json": {
+                        "schema": {
+                            "properties": {
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "allOf": [
+                                            {
+                                                "properties": {
+                                                    "id": {
+                                                        "title": "id",
+                                                        "type": "integer",
+                                                        "format": "int64",
+                                                        "example": 1
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            {
+                                                "$ref": "#/components/schemas/CakeSolicitationResource"
+                                            }
+                                        ]
+                                    }
+                                },
+                                "links": {
+                                    "$ref": "#/components/schemas/PaginationLinks"
+                                },
+                                "meta": {
+                                    "$ref": "#/components/schemas/PaginationMeta"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "CakeSolicitationResponse": {
+                "description": "Solicitações de bolos",
+                "content": {
+                    "Appplication/json": {
+                        "schema": {
+                            "type": "object",
+                            "allOf": [
+                                {
+                                    "properties": {
+                                        "id": {
+                                            "title": "id",
+                                            "type": "integer",
+                                            "format": "int64",
+                                            "example": 1
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/CakeSolicitationResource"
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
             "CakeItemCollectionResponse": {
                 "description": "Lista de bolos",
                 "content": {
                     "Appplication/json": {
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "allOf": [
-                                    {
-                                        "properties": {
-                                            "id": {
-                                                "title": "id",
-                                                "type": "integer",
-                                                "format": "int64",
-                                                "example": 1
+                            "properties": {
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "allOf": [
+                                            {
+                                                "properties": {
+                                                    "id": {
+                                                        "title": "id",
+                                                        "type": "integer",
+                                                        "format": "int64",
+                                                        "example": 1
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            {
+                                                "$ref": "#/components/schemas/CakeResource"
                                             }
-                                        },
-                                        "type": "object"
-                                    },
-                                    {
-                                        "$ref": "#/components/schemas/CakeResource"
+                                        ]
                                     }
-                                ]
-                            }
+                                },
+                                "links": {
+                                    "$ref": "#/components/schemas/PaginationLinks"
+                                },
+                                "meta": {
+                                    "$ref": "#/components/schemas/PaginationMeta"
+                                }
+                            },
+                            "type": "object"
                         }
                     }
                 }

@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('cake_id');
-            $table->dateTimeTz('approved_at')->nullable();
             $table->timestampsTz();
 
             $table->foreign('user_id')

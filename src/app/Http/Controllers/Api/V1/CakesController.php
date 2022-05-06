@@ -21,23 +21,37 @@ use OpenApi\Attributes as OA;
         new OA\MediaType(
             mediaType: 'Appplication/json',
             schema: new OA\Schema(
-                type: 'array',
-                items: new OA\Items(
-                    allOf: [
-                        new OA\Schema(
-                            properties: [
-                                new OA\Property(
-                                    property: 'id',
-                                    title: 'id',
-                                    type: 'int',
-                                    format: 'int64',
-                                    example: 1,
+                properties: [
+                    new OA\Property(
+                        property: 'data',
+                        type: 'array',
+                        items: new OA\Items(
+                            allOf: [
+                                new OA\Schema(
+                                    properties: [
+                                        new OA\Property(
+                                            property: 'id',
+                                            title: 'id',
+                                            type: 'int',
+                                            format: 'int64',
+                                            example: 1,
+                                        ),
+                                    ]
                                 ),
+                                new OA\Schema(ref: '#/components/schemas/CakeResource'),
                             ]
                         ),
-                        new OA\Schema(ref: '#/components/schemas/CakeResource'),
-                    ]
-                )
+                    ),
+                    new OA\Property(
+                        property: 'links',
+                        ref: '#/components/schemas/PaginationLinks',
+                    ),
+                    new OA\Property(
+                        property: 'meta',
+                        ref: '#/components/schemas/PaginationMeta',
+                    )
+                ],
+                type: 'object',
             )
         )
     ]
@@ -80,17 +94,6 @@ class CakesController extends Controller
         operationId: 'getCakes',
         description: 'Obtém todos os bolos disponíveis.',
         tags: ['Bolos'],
-        parameters: [
-            new OA\Parameter(
-                parameter: 'name',
-                name: 'name',
-                description: 'Filtra bolos onde contém o nome informado.',
-                in: 'query',
-                schema: new OA\Schema(
-                    type: 'string'
-                )
-            )
-        ],
         responses: [
             new OA\Response(
                 ref: '#/components/responses/CakeItemCollectionResponse',
@@ -121,7 +124,7 @@ class CakesController extends Controller
         responses: [
             new OA\Response(
                 ref: '#/components/responses/CakeItemResponse',
-                response: 200,
+                response: 202,
             ),
             new OA\Response(
                 ref: '#/components/responses/UnprocessableEntity',

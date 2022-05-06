@@ -26,11 +26,11 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::group(['prefix' => 'v1'], function () {
-    Route::get('/swagger', SwaggerController::class)->name('v1.swagger');
-
+Route::name('api.v1.')->prefix('v1')->group(function () {
+    Route::get('/swagger', SwaggerController::class)->name('swagger');
 
     Route::apiResource('cakes', CakesController::class);
+
     Route::apiResource('cakes.solicitations', CakeSolicitationsController::class)
         ->only(['index', 'store', 'destroy']);
 });
