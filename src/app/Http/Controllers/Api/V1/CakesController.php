@@ -15,6 +15,7 @@ use App\Http\Resources\CakeResource;
 use App\Models\Cake;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\DB;
 use OpenApi\Attributes as OA;
 
 /**
@@ -100,7 +101,8 @@ class CakesController extends Controller
     #[OA\Get(
         path: '/cakes',
         operationId: 'getCakes',
-        description: 'Obtém todos os bolos disponíveis.',
+        description: 'Obtém todos os bolos disponíveis paginados.',
+        summary: 'Obtém todos os bolos disponíveis paginados.',
         tags: ['Bolos'],
         responses: [
             new OA\Response(
@@ -124,7 +126,8 @@ class CakesController extends Controller
     #[OA\Post(
         path: '/cakes',
         operationId: 'createCake',
-        description: 'Obtém todos os bolos disponíveis.',
+        description: 'Cria um novo bolo',
+        summary: 'Cria um novo bolo',
         requestBody: new OA\RequestBody(
             ref: '#/components/requestBodies/CakeStoreRequest'
         ),
@@ -159,6 +162,7 @@ class CakesController extends Controller
         path: '/cakes/{id}',
         operationId: 'getCakeById',
         description: 'Obtém um bolo pelo ID.',
+        summary: 'Obtém um bolo pelo ID.',
         tags: ['Bolos'],
         parameters: [
             new OA\Parameter(
@@ -202,6 +206,7 @@ class CakesController extends Controller
         path: '/cakes/{id}',
         operationId: 'updateCakeById',
         description: 'Atualiza um bolo pelo ID. Apenas os campos que forem enviados serão atualizados.',
+        summary: 'Atualiza um bolo pelo ID. Apenas os campos que forem enviados serão atualizados.',
         requestBody: new OA\RequestBody(
             ref: '#/components/requestBodies/CakeUpdateRequest'
         ),
@@ -237,7 +242,9 @@ class CakesController extends Controller
     )]
     public function update(CakeUpdateRequest $request, Cake $cake): CakeResource
     {
-        $cake->update($request->validated());
+        DB::transaction(function () use ($request, &$cake) {
+            $cake->lockForUpdate()->update($request->validated());
+        });
         $cake->load('solicitations');
         return new CakeResource($cake);
     }
@@ -253,6 +260,7 @@ class CakesController extends Controller
         path: '/cakes/{id}',
         operationId: 'deleteCakeById',
         description: 'Obtém um bolo pelo ID.',
+        summary: 'Obtém um bolo pelo ID.',
         tags: ['Bolos'],
         parameters: [
             new OA\Parameter(

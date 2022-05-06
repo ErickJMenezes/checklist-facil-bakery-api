@@ -12,12 +12,57 @@
         }
     ],
     "paths": {
+        "/cakes/{id}/solicitations": {
+            "post": {
+                "tags": [
+                    "Bolos"
+                ],
+                "summary": "Cria uma nova solicitação de bolo",
+                "description": "Cria uma nova solicitação de bolo",
+                "operationId": "createCakeSolicitation",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do bolo",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/CakeSolicitationsStoreRequest"
+                },
+                "responses": {
+                    "202": {
+                        "description": "Solicitação de bolo em processamento.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Mensagem de sucesso.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/UnprocessableEntity"
+                    },
+                    "429": {
+                        "description": "Número de solicitações de bolo por minuto excedido."
+                    }
+                }
+            }
+        },
         "/cakes": {
             "get": {
                 "tags": [
                     "Bolos"
                 ],
-                "summary": "Display a listing of the resource.",
+                "summary": "Lista de bolos",
                 "description": "Obtém todos os bolos disponíveis.",
                 "operationId": "getCakes",
                 "responses": {
@@ -30,8 +75,8 @@
                 "tags": [
                     "Bolos"
                 ],
-                "summary": "Store a newly created resource in storage.",
-                "description": "Obtém todos os bolos disponíveis.",
+                "summary": "Cria um novo bolo",
+                "description": "Cria um novo bolo",
                 "operationId": "createCake",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/CakeStoreRequest"
@@ -51,7 +96,7 @@
                 "tags": [
                     "Bolos"
                 ],
-                "summary": "Display the specified resource.",
+                "summary": "Obtém um bolo pelo ID.",
                 "description": "Obtém um bolo pelo ID.",
                 "operationId": "getCakeById",
                 "parameters": [
@@ -80,7 +125,7 @@
                 "tags": [
                     "Bolos"
                 ],
-                "summary": "Remove the specified resource from storage.",
+                "summary": "Obtém um bolo pelo ID.",
                 "description": "Obtém um bolo pelo ID.",
                 "operationId": "deleteCakeById",
                 "parameters": [
@@ -109,7 +154,7 @@
                 "tags": [
                     "Bolos"
                 ],
-                "summary": "Update the specified resource in storage.",
+                "summary": "Atualiza um bolo pelo ID. Apenas os campos que forem enviados serão atualizados.",
                 "description": "Atualiza um bolo pelo ID. Apenas os campos que forem enviados serão atualizados.",
                 "operationId": "updateCakeById",
                 "parameters": [
@@ -224,6 +269,16 @@
                 },
                 "type": "object"
             },
+            "CakeSolicitationsStoreRequestPayload": {
+                "properties": {
+                    "email": {
+                        "description": "O e-mail do usuário que solicita o bolo",
+                        "type": "string",
+                        "format": "email"
+                    }
+                },
+                "type": "object"
+            },
             "CakeUpdateOrStoreRequestPayload": {
                 "description": "Class CakeStoreRequest.",
                 "properties": {
@@ -329,71 +384,6 @@
             }
         },
         "responses": {
-            "CakeSolicitationCollectionResponse": {
-                "description": "Lista de solicitações de bolos",
-                "content": {
-                    "Appplication/json": {
-                        "schema": {
-                            "properties": {
-                                "data": {
-                                    "type": "array",
-                                    "items": {
-                                        "allOf": [
-                                            {
-                                                "properties": {
-                                                    "id": {
-                                                        "title": "id",
-                                                        "type": "integer",
-                                                        "format": "int64",
-                                                        "example": 1
-                                                    }
-                                                },
-                                                "type": "object"
-                                            },
-                                            {
-                                                "$ref": "#/components/schemas/CakeSolicitationResource"
-                                            }
-                                        ]
-                                    }
-                                },
-                                "links": {
-                                    "$ref": "#/components/schemas/PaginationLinks"
-                                },
-                                "meta": {
-                                    "$ref": "#/components/schemas/PaginationMeta"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                }
-            },
-            "CakeSolicitationResponse": {
-                "description": "Solicitações de bolos",
-                "content": {
-                    "Appplication/json": {
-                        "schema": {
-                            "type": "object",
-                            "allOf": [
-                                {
-                                    "properties": {
-                                        "id": {
-                                            "title": "id",
-                                            "type": "integer",
-                                            "format": "int64",
-                                            "example": 1
-                                        }
-                                    },
-                                    "type": "object"
-                                },
-                                {
-                                    "$ref": "#/components/schemas/CakeSolicitationResource"
-                                }
-                            ]
-                        }
-                    }
-                }
-            },
             "CakeItemCollectionResponse": {
                 "description": "Lista de bolos",
                 "content": {
@@ -476,6 +466,20 @@
             }
         },
         "requestBodies": {
+            "CakeSolicitationsStoreRequest": {
+                "description": "Solicitação de bolo",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/CakeSolicitationsStoreRequestPayload"
+                        },
+                        "example": {
+                            "email": "foo@example.com"
+                        }
+                    }
+                }
+            },
             "CakeStoreRequest": {
                 "description": "Exemplo de payload para criar um novo bolo.",
                 "required": true,

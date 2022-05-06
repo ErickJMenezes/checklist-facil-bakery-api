@@ -9,130 +9,71 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\V1\CakesController\CakeSolicitationsStoreRequest;
+use App\Jobs\ProcessCakeSolicitation;
 use App\Models\Cake;
-use App\Models\CakeSolicitation;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
 
-#[OA\Response(
-    response: 'CakeSolicitationCollectionResponse',
-    description: 'Lista de solicitações de bolos',
-    content: [
-        new OA\MediaType(
-            mediaType: 'Appplication/json',
-            schema: new OA\Schema(
-                properties: [
-                    new OA\Property(
-                        property: 'data',
-                        type: 'array',
-                        items: new OA\Items(
-                            allOf: [
-                                new OA\Schema(
-                                    properties: [
-                                        new OA\Property(
-                                            property: 'id',
-                                            title: 'id',
-                                            type: 'int',
-                                            format: 'int64',
-                                            example: 1,
-                                        ),
-                                    ]
-                                ),
-                                new OA\Schema(ref: '#/components/schemas/CakeSolicitationResource'),
-                            ]
-                        ),
-                    ),
-                    new OA\Property(
-                        property: 'links',
-                        ref: '#/components/schemas/PaginationLinks',
-                    ),
-                    new OA\Property(
-                        property: 'meta',
-                        ref: '#/components/schemas/PaginationMeta',
-                    )
-                ],
-                type: 'object',
-            )
-        )
-    ]
-)]
-#[OA\Response(
-    response: 'CakeSolicitationResponse',
-    description: 'Solicitações de bolos',
-    content: [
-        new OA\MediaType(
-            mediaType: 'Appplication/json',
-            schema: new OA\Schema(
-                type: 'object',
-                allOf: [
-                    new OA\Schema(
-                        properties: [
-                            new OA\Property(
-                                property: 'id',
-                                title: 'id',
-                                type: 'int',
-                                format: 'int64',
-                                example: 1,
-                            ),
-                        ]
-                    ),
-                    new OA\Schema(ref: '#/components/schemas/CakeSolicitationResource'),
-                ]
-            )
-        )
-    ]
-)]
 class CakeSolicitationsController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @param \App\Models\Cake $cake
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function index(Cake $cake): JsonResponse
-    {
-        return response()->json();
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Cake         $cake
+     * @param \App\Http\Requests\Api\V1\CakesController\CakeSolicitationsStoreRequest $request
+     * @param \App\Models\Cake                                                        $cake
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request, Cake $cake): JsonResponse
+    #[OA\Post(
+        path: '/cakes/{id}/solicitations',
+        operationId: 'createCakeSolicitation',
+        description: 'Cria uma nova solicitação de bolo',
+        summary: 'Cria uma nova solicitação de bolo',
+        requestBody: new OA\RequestBody(ref: '#/components/requestBodies/CakeSolicitationsStoreRequest'),
+        tags: ['Bolos'],
+        parameters: [
+            new OA\Parameter(
+                name: 'id',
+                description: 'ID do bolo',
+                in: 'path',
+                required: true,
+            )
+        ],
+        responses: [
+            new OA\Response(
+                response: 202,
+                description: 'Solicitação de bolo em processamento.',
+                content: new OA\MediaType(
+                    mediaType: 'application/json',
+                    schema: new OA\Schema(
+                        properties: [
+                            new OA\Property(
+                                property: 'message',
+                                description: 'Mensagem de sucesso.',
+                                type: 'string',
+                            )
+                        ],
+                        type: 'object'
+                    )
+                )
+            ),
+            new OA\Response(
+                ref: '#/components/responses/UnprocessableEntity',
+                response: 422,
+            ),
+            new OA\Response(
+                response: 429,
+                description: 'Número de solicitações de bolo por minuto excedido.',
+            )
+        ]
+    )]
+    public function store(CakeSolicitationsStoreRequest $request, Cake $cake): JsonResponse
     {
-        return response()->json();
-    }
+        ProcessCakeSolicitation::dispatchAfterResponse($cake, $request->email);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param \App\Models\Cake             $cake
-     * @param \App\Models\CakeSolicitation $cakeSolicitation
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function show(Cake $cake, CakeSolicitation $cakeSolicitation): JsonResponse
-    {
-        return response()->json();
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param \App\Models\Cake             $cake
-     * @param \App\Models\CakeSolicitation $cakeSolicitation
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function destroy(Cake $cake, CakeSolicitation $cakeSolicitation): JsonResponse
-    {
-        return response()->json();
+        return response()->json([
+            'message' => trans('cake.successfullyRequested'),
+        ], 202);
     }
 }

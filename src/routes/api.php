@@ -32,5 +32,6 @@ Route::name('v1.')->prefix('v1')->group(function () {
     Route::apiResource('cakes', CakesController::class);
 
     Route::apiResource('cakes.solicitations', CakeSolicitationsController::class)
-        ->only(['index', 'store', 'destroy']);
+        ->only(['store'])
+        ->middleware('throttle:1000,1');
 });

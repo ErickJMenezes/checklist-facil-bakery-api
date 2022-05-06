@@ -116,14 +116,11 @@ class CakesControllerTest extends TestCase
             ]
         )
             ->assertStatus(422)
-            ->assertJsonStructure([
-                'message',
-                'errors' => [
-                    'name',
-                    'price',
-                    'quantity',
-                    'weight_in_grams',
-                ],
+            ->assertJsonValidationErrors([
+                'name',
+                'price',
+                'quantity',
+                'weight_in_grams',
             ]);
     }
 

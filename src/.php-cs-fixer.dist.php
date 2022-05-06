@@ -9,7 +9,9 @@ EOF;
 $finder = PhpCsFixer\Finder::create()
     ->exclude([
         'vendor',
-        '.phpunit.cache'
+        '.phpunit.cache',
+        'app/bootstrap',
+        'app/public',
     ])
     ->in(__DIR__);
 
