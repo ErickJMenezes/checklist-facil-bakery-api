@@ -22,7 +22,7 @@ return new class () extends Migration {
             $table->id();
             $table->string('name')->comment('Nome do bolo.');
             $table->integer('weight_in_grams')->comment('Peso em gramas.');
-            $table->decimal('price', 13)->comment('Preço do bolo.');
+            $table->integer('price')->comment('Preço do bolo.');
             $table->integer('quantity')->comment('Quantidade disponível.');
             $table->timestampsTz();
         });
