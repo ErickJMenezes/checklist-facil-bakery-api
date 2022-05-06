@@ -8,6 +8,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -24,6 +25,14 @@ class Cake extends Model implements Auditable
     use \OwenIt\Auditing\Auditable;
 
     protected $guarded = [];
+
+    public function price(): Attribute
+    {
+        return new Attribute(
+            get: fn(int $price): float => $price === 0 ? 0 : floatval( $price / 100),
+            set: fn(float $price): int => intval($price * 100)
+        );
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany<\App\Models\CakeSolicitation>
