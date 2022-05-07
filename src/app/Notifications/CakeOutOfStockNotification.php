@@ -25,7 +25,7 @@ class CakeOutOfStockNotification extends Notification implements ShouldQueue
     public function __construct(
         private string $cakeName,
     ) {
-        //
+        $this->onQueue('notifications');
     }
 
     /**

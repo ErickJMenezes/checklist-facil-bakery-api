@@ -26,7 +26,7 @@ class CakeRequestedNotification extends Notification implements ShouldQueue
         private string $cakeName,
         private float $price,
     ) {
-        //
+        $this->onQueue('notifications');
     }
 
     /**
