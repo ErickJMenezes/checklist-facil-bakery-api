@@ -51,6 +51,7 @@ class CakeOutOfStockNotification extends Notification implements ShouldQueue
             ->subject('Pedido de bolo')
             ->greeting('Olá!')
             ->line("Infelizmente nosso estoque de bolo \"$this->cakeName\" acabou :(")
+            ->line('Mas não se preocupe, assim que ele estiver disponível, iremos te notificar :)')
             ->salutation("Atenciosamente,\nEquipe Checklist Fácil");
     }
 }

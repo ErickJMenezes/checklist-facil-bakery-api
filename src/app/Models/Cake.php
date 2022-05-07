@@ -29,17 +29,17 @@ class Cake extends Model implements Auditable
     public function price(): Attribute
     {
         return new Attribute(
-            get: fn(int $price): float => $price === 0 ? 0 : floatval( $price / 100),
-            set: fn(float $price): int => intval($price * 100)
+            get: fn (int $price): float => $price === 0 ? 0 : floatval($price / 100),
+            set: fn (float $price): int => intval($price * 100)
         );
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany<\App\Models\CakeSolicitation>
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<\App\Models\CakeSubscription>
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
-    public function solicitations(): HasMany
+    public function subscriptions(): HasMany
     {
-        return $this->hasMany(CakeSolicitation::class);
+        return $this->hasMany(CakeSubscription::class);
     }
 }

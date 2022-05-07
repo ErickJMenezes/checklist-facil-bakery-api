@@ -20,8 +20,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', fn() => redirect('http://localhost:5555'));
+Route::get('/', fn () => redirect('http://localhost:5555'));
 
 if (app()->environment('local')) {
-    Route::get('/mails', fn() => redirect('http://localhost:8025'));
+    Route::get('/mails', fn () => redirect('http://localhost:8025'));
 }

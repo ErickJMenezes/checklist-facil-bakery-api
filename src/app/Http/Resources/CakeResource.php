@@ -65,9 +65,9 @@ use OpenApi\Attributes as OA;
             example: '2020-01-01T00:00:00.000000Z',
         ),
         new OA\Property(
-            property: 'solicitations',
+            property: 'subscriptions',
             type: 'array',
-            items: new OA\Items(ref: '#/components/schemas/CakeSolicitationResource'),
+            items: new OA\Items(ref: '#/components/schemas/CakeSubscriptionResource'),
         ),
     ],
     type: 'object'
@@ -93,7 +93,7 @@ class CakeResource extends JsonResource
             'quantity' => $this->quantity,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'solicitations' => CakeSolicitationResource::collection($this->whenLoaded('solicitations')),
+            'subscriptions' => CakeSubscriptionResource::collection($this->whenLoaded('subscriptions')),
         ];
     }
 }

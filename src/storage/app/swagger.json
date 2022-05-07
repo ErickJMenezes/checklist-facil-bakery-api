@@ -12,14 +12,14 @@
         }
     ],
     "paths": {
-        "/cakes/{id}/solicitations": {
+        "/cakes/{id}/subscriptions": {
             "post": {
                 "tags": [
                     "Bolos"
                 ],
-                "summary": "Cria uma nova solicitação de bolo",
-                "description": "Cria uma nova solicitação de bolo",
-                "operationId": "createCakeSolicitation",
+                "summary": "Cria uma nova inscrição para o bolo",
+                "description": "Cria uma nova inscrição para o bolo",
+                "operationId": "createCakeSubscription",
                 "parameters": [
                     {
                         "name": "id",
@@ -29,7 +29,7 @@
                     }
                 ],
                 "requestBody": {
-                    "$ref": "#/components/requestBodies/CakeSolicitationsStoreRequest"
+                    "$ref": "#/components/requestBodies/CakeSubscriptionStoreRequest"
                 },
                 "responses": {
                     "202": {
@@ -62,8 +62,8 @@
                 "tags": [
                     "Bolos"
                 ],
-                "summary": "Lista de bolos",
-                "description": "Obtém todos os bolos disponíveis.",
+                "summary": "Obtém todos os bolos disponíveis paginados.",
+                "description": "Obtém todos os bolos disponíveis paginados.",
                 "operationId": "getCakes",
                 "responses": {
                     "200": {
@@ -269,16 +269,6 @@
                 },
                 "type": "object"
             },
-            "CakeSolicitationsStoreRequestPayload": {
-                "properties": {
-                    "email": {
-                        "description": "O e-mail do usuário que solicita o bolo",
-                        "type": "string",
-                        "format": "email"
-                    }
-                },
-                "type": "object"
-            },
             "CakeUpdateOrStoreRequestPayload": {
                 "description": "Class CakeStoreRequest.",
                 "properties": {
@@ -305,6 +295,16 @@
                         "type": "integer",
                         "format": "int32",
                         "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "CakeSubscriptionStoreRequestPayload": {
+                "properties": {
+                    "email": {
+                        "description": "O e-mail do usuário que solicita o bolo",
+                        "type": "string",
+                        "format": "email"
                     }
                 },
                 "type": "object"
@@ -349,16 +349,16 @@
                         "format": "date-time-tz",
                         "example": "2020-01-01T00:00:00.000000Z"
                     },
-                    "solicitations": {
+                    "subscriptions": {
                         "type": "array",
                         "items": {
-                            "$ref": "#/components/schemas/CakeSolicitationResource"
+                            "$ref": "#/components/schemas/CakeSubscriptionResource"
                         }
                     }
                 },
                 "type": "object"
             },
-            "CakeSolicitationResource": {
+            "CakeSubscriptionResource": {
                 "title": "CakeSolicitation",
                 "description": "Cake Solicitation Model",
                 "properties": {
@@ -466,20 +466,6 @@
             }
         },
         "requestBodies": {
-            "CakeSolicitationsStoreRequest": {
-                "description": "Solicitação de bolo",
-                "required": true,
-                "content": {
-                    "application/json": {
-                        "schema": {
-                            "$ref": "#/components/schemas/CakeSolicitationsStoreRequestPayload"
-                        },
-                        "example": {
-                            "email": "foo@example.com"
-                        }
-                    }
-                }
-            },
             "CakeStoreRequest": {
                 "description": "Exemplo de payload para criar um novo bolo.",
                 "required": true,
@@ -493,6 +479,20 @@
                             "weight_in_grams": 1200,
                             "price": 120,
                             "quantity": 30
+                        }
+                    }
+                }
+            },
+            "CakeSubscriptionStoreRequest": {
+                "description": "Solicitação de bolo",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/CakeSubscriptionStoreRequestPayload"
+                        },
+                        "example": {
+                            "email": "foo@example.com"
                         }
                     }
                 }

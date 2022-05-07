@@ -36,7 +36,7 @@ class CakesControllerTest extends TestCase
                         'quantity',
                         'created_at',
                         'updated_at',
-                        'solicitations' => [
+                        'subscriptions' => [
                             '*' => [
                                 'id',
                                 'email',
@@ -76,7 +76,7 @@ class CakesControllerTest extends TestCase
                 'quantity',
                 'created_at',
                 'updated_at',
-                'solicitations' => [
+                'subscriptions' => [
                     '*' => [
                         'id',
                         'email',
@@ -144,7 +144,7 @@ class CakesControllerTest extends TestCase
                 'quantity',
                 'created_at',
                 'updated_at',
-                'solicitations',
+                'subscriptions',
             ]);
     }
 

@@ -12,6 +12,7 @@ $finder = PhpCsFixer\Finder::create()
         '.phpunit.cache',
         'app/bootstrap',
         'app/public',
+        'app/storage',
     ])
     ->in(__DIR__);
 

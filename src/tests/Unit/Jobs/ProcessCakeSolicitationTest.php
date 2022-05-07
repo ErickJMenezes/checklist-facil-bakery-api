@@ -1,43 +1,46 @@
 <?php
 
+/*
+ * Esse arquivo faz parte do teste técnico da empresa Checklist Fácil.
+ *
+ * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
+ */
+
 namespace Tests\Unit\Jobs;
 
-use App\Jobs\ProcessCakeSolicitation;
+use App\Events\UserSubscribedToCake;
+use App\Jobs\ProcessCakeSubscription;
 use App\Models\Cake;
-use App\Notifications\CakeOutOfStockNotification;
-use App\Notifications\CakeRequestedNotification;
-use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 /**
  * Class ProcessCakeSolicitationTest.
  *
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
- * @covers \App\Jobs\ProcessCakeSolicitation
+ * @covers \App\Jobs\ProcessCakeSubscription
  */
 class ProcessCakeSolicitationTest extends TestCase
 {
-    public function test_it_must_send_the_cake_requested_notification(): void
+    public function test_it_must_subscribe_to_the_cake_if_doesnt(): void
     {
-        Notification::fake();
-        $cake = Cake::factory()->create([
-            'quantity' => 1,
+        Event::fake([
+            UserSubscribedToCake::class,
         ]);
-        $job = new ProcessCakeSolicitation($cake, 'foo@bar.com');
+        $cake = Cake::factory()->create();
+        $job = new ProcessCakeSubscription($cake, 'foo@bar.com');
         $job->handle();
-        Notification::assertSentOnDemandTimes(CakeRequestedNotification::class);
-        $cake->refresh();
-        self::assertEquals(0, $cake->quantity);
+        Event::assertDispatched(UserSubscribedToCake::class);
     }
 
-    public function test_it_must_send_the_cake_out_of_stock_notification(): void
+    public function test_it_must_not_subscribe_to_the_cake_more_than_once(): void
     {
-        Notification::fake();
-        $cake = Cake::factory()->create([
-            'quantity' => 0,
+        Event::fake([
+            UserSubscribedToCake::class,
         ]);
-        $job = new ProcessCakeSolicitation($cake, 'foo@bar.com');
-        $job->handle();
-        Notification::assertSentOnDemandTimes(CakeOutOfStockNotification::class);
+        $cake = Cake::factory()->create();
+        (new ProcessCakeSubscription($cake, 'foo@bar.com'))->handle();
+        (new ProcessCakeSubscription($cake, 'foo@bar.com'))->handle();
+        Event::assertDispatchedTimes(UserSubscribedToCake::class, 1);
     }
 }

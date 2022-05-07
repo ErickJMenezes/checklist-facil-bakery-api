@@ -9,28 +9,28 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\V1\CakesController\CakeSolicitationsStoreRequest;
-use App\Jobs\ProcessCakeSolicitation;
+use App\Http\Requests\Api\V1\CakesController\CakeSubscriptionStoreRequest;
+use App\Jobs\ProcessCakeSubscription;
 use App\Models\Cake;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
 
-class CakeSolicitationsController extends Controller
+class CakeSubscriptionsController extends Controller
 {
     /**
      * Store a newly created resource in storage.
      *
-     * @param \App\Http\Requests\Api\V1\CakesController\CakeSolicitationsStoreRequest $request
-     * @param \App\Models\Cake                                                        $cake
+     * @param \App\Http\Requests\Api\V1\CakesController\CakeSubscriptionStoreRequest $request
+     * @param \App\Models\Cake                                                       $cake
      *
      * @return \Illuminate\Http\JsonResponse
      */
     #[OA\Post(
-        path: '/cakes/{id}/solicitations',
-        operationId: 'createCakeSolicitation',
-        description: 'Cria uma nova solicitação de bolo',
-        summary: 'Cria uma nova solicitação de bolo',
-        requestBody: new OA\RequestBody(ref: '#/components/requestBodies/CakeSolicitationsStoreRequest'),
+        path: '/cakes/{id}/subscriptions',
+        operationId: 'createCakeSubscription',
+        description: 'Cria uma nova inscrição para o bolo',
+        summary: 'Cria uma nova inscrição para o bolo',
+        requestBody: new OA\RequestBody(ref: '#/components/requestBodies/CakeSubscriptionStoreRequest'),
         tags: ['Bolos'],
         parameters: [
             new OA\Parameter(
@@ -68,9 +68,9 @@ class CakeSolicitationsController extends Controller
             )
         ]
     )]
-    public function store(CakeSolicitationsStoreRequest $request, Cake $cake): JsonResponse
+    public function store(CakeSubscriptionStoreRequest $request, Cake $cake): JsonResponse
     {
-        ProcessCakeSolicitation::dispatchAfterResponse($cake, $request->email);
+        ProcessCakeSubscription::dispatchAfterResponse($cake, $request->email);
 
         return response()->json([
             'message' => trans('cake.successfullyRequested'),

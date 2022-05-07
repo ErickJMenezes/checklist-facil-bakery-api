@@ -8,7 +8,7 @@
 
 namespace Tests\Feature\Http\Controllers\Api\V1;
 
-use App\Jobs\ProcessCakeSolicitation;
+use App\Jobs\ProcessCakeSubscription;
 use App\Models\Cake;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -19,9 +19,9 @@ use Tests\TestCase;
  * Class CakeSolicitationsControllerTest.
  *
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
- * @covers \App\Http\Controllers\Api\V1\CakeSolicitationsController
+ * @covers \App\Http\Controllers\Api\V1\CakeSubscriptionsController
  */
-class CakeSolicitationsControllerTest extends TestCase
+class CakeSubscriptionsControllerTest extends TestCase
 {
     use WithFaker;
     use DatabaseTransactions;
@@ -35,7 +35,7 @@ class CakeSolicitationsControllerTest extends TestCase
     {
         $cake = Cake::factory()->create();
 
-        $this->postJson(route('api.v1.cakes.solicitations.store', $cake->id), [
+        $this->postJson(route('api.v1.cakes.subscriptions.store', $cake->id), [
                 'email' => 'fooemail'
             ])
             ->assertStatus(422)
@@ -45,12 +45,12 @@ class CakeSolicitationsControllerTest extends TestCase
     public function test_store_must_accept_the_payload(): void
     {
         Bus::fake([
-            ProcessCakeSolicitation::class
+            ProcessCakeSubscription::class
         ]);
 
         $cake = Cake::factory()->create();
 
-        $this->postJson(route('api.v1.cakes.solicitations.store', $cake->id), [
+        $this->postJson(route('api.v1.cakes.subscriptions.store', $cake->id), [
             'email' => $this->faker->email
         ])
             ->assertStatus(202)
@@ -58,6 +58,6 @@ class CakeSolicitationsControllerTest extends TestCase
                 'message' => trans('cake.successfullyRequested')
             ]);
 
-        Bus::assertDispatched(ProcessCakeSolicitation::class);
+        Bus::assertDispatched(ProcessCakeSubscription::class);
     }
 }

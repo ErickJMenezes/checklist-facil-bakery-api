@@ -18,7 +18,7 @@ return new class () extends Migration {
      */
     public function up()
     {
-        Schema::create('cake_solicitations', function (Blueprint $table) {
+        Schema::create('cake_subscriptions', function (Blueprint $table) {
             $table->id();
             $table->string('email');
             $table->unsignedBigInteger('cake_id');

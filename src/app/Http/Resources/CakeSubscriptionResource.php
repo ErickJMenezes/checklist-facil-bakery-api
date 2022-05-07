@@ -12,13 +12,13 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use OpenApi\Attributes as OA;
 
 /**
- * Class CakeSolicitationResource.
+ * Class CakeSubscriptionResource.
  *
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
- * @mixin \App\Models\CakeSolicitation
+ * @mixin \App\Models\CakeSubscription
  */
 #[OA\Schema(
-    schema: 'CakeSolicitationResource',
+    schema: 'CakeSubscriptionResource',
     title: 'CakeSolicitation',
     description: 'Cake Solicitation Model',
     properties: [
@@ -45,7 +45,7 @@ use OpenApi\Attributes as OA;
     ],
     type: 'object'
 )]
-class CakeSolicitationResource extends JsonResource
+class CakeSubscriptionResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

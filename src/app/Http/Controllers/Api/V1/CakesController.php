@@ -113,7 +113,7 @@ class CakesController extends Controller
     )]
     public function index(): AnonymousResourceCollection
     {
-        return CakeResource::collection(Cake::with('solicitations')->paginate(20));
+        return CakeResource::collection(Cake::with('subscriptions')->paginate(20));
     }
 
     /**
@@ -190,7 +190,7 @@ class CakesController extends Controller
     )]
     public function show(Cake $cake): JsonResponse
     {
-        $cake->load('solicitations');
+        $cake->load('subscriptions');
         return CakeResource::make($cake)->response();
     }
 
@@ -200,7 +200,7 @@ class CakesController extends Controller
      * @param \App\Http\Requests\Api\V1\CakesController\CakeUpdateRequest $request
      * @param \App\Models\Cake                                            $cake
      *
-     * @return \App\Http\Resources\CakeResource
+     * @return \Illuminate\Http\JsonResponse
      */
     #[OA\Patch(
         path: '/cakes/{id}',
@@ -240,14 +240,11 @@ class CakesController extends Controller
             )
         ]
     )]
-    public function update(CakeUpdateRequest $request, Cake $cake): CakeResource
+    public function update(CakeUpdateRequest $request, Cake $cake): JsonResponse
     {
-        DB::transaction(function () use ($request, &$cake) {
-            $cake->lockForUpdate()->update($request->validated());
-        });
-        $cake->load('solicitations');
-        $cake->refresh();
-        return new CakeResource($cake);
+        $cake->update($request->validated());
+        $cake->load('subscriptions');
+        return (new CakeResource($cake))->response();
     }
 
     /**

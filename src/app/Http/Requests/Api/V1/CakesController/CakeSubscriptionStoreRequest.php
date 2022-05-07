@@ -12,7 +12,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
-    schema: 'CakeSolicitationsStoreRequestPayload',
+    schema: 'CakeSubscriptionStoreRequestPayload',
     properties: [
         new OA\Property(
             property: 'email',
@@ -24,17 +24,17 @@ use OpenApi\Attributes as OA;
     type: 'object',
 )]
 #[OA\RequestBody(
-    request: 'CakeSolicitationsStoreRequest',
+    request: 'CakeSubscriptionStoreRequest',
     description: 'Solicitação de bolo',
     required: true,
     content: new OA\JsonContent(
-        ref: '#/components/schemas/CakeSolicitationsStoreRequestPayload',
+        ref: '#/components/schemas/CakeSubscriptionStoreRequestPayload',
         example: [
             'email' => 'foo@example.com'
         ]
     ),
 )]
-class CakeSolicitationsStoreRequest extends FormRequest
+class CakeSubscriptionStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

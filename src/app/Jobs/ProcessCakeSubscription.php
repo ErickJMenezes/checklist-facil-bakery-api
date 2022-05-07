@@ -10,7 +10,7 @@ namespace App\Jobs;
 
 use App\Models\Cake;
 use App\Notifications\CakeOutOfStockNotification;
-use App\Notifications\CakeRequestedNotification;
+use App\Notifications\CakeIsAvailableNotification;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -20,7 +20,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
-class ProcessCakeSolicitation implements ShouldQueue, ShouldBeUnique
+class ProcessCakeSubscription implements ShouldQueue, ShouldBeUnique
 {
     use Dispatchable;
     use InteractsWithQueue;
@@ -39,9 +39,9 @@ class ProcessCakeSolicitation implements ShouldQueue, ShouldBeUnique
         //
     }
 
-    public function uniqueId(): int
+    public function uniqueId(): string
     {
-        return $this->cake->id;
+        return "[$this->email]-[{$this->cake->id}]";
     }
 
     /**
@@ -51,24 +51,16 @@ class ProcessCakeSolicitation implements ShouldQueue, ShouldBeUnique
      */
     public function handle(): void
     {
-        $this->cake->refresh();
-        if ($this->cake->quantity > 0) {
-            DB::transaction(function () {
-                $this->cake->lockForUpdate()->update(['quantity' => $this->cake->quantity - 1]);
-                $this->cake->solicitations()
-                    ->create([
-                        'email' => $this->email,
-                    ]);
-            });
+        $alreadySubscribed = $this->cake->subscriptions()
+            ->where('email', $this->email)
+            ->exists();
 
-            Notification::route('mail', $this->email)
-                ->notify(new CakeRequestedNotification(
-                    $this->cake->name,
-                        $this->cake->price,
-                ));
-        } else {
-            Notification::route('mail', $this->email)
-                ->notify(new CakeOutOfStockNotification($this->cake->name));
+        if ($alreadySubscribed) {
+            return;
         }
+
+        $this->cake->subscriptions()->create([
+            'email' => $this->email,
+        ]);
     }
 }

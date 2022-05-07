@@ -11,9 +11,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\CakeSolicitation>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\CakeSubscription>
  */
-class CakeSolicitationFactory extends Factory
+class CakeSubscriptionFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -23,7 +23,7 @@ class CakeSolicitationFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'email' => $this->faker->email,
         ];
     }
 }

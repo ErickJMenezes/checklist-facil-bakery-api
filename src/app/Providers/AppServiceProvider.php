@@ -8,6 +8,10 @@
 
 namespace App\Providers;
 
+use App\Models\Cake;
+use App\Models\CakeSubscription;
+use App\Observers\CakeObserver;
+use App\Observers\CakeSubscriptionObserver;
 use Illuminate\Support\ServiceProvider;
 use OpenApi\Attributes as OA;
 
@@ -56,6 +60,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->initModelObservers();
+    }
+
+    private function initModelObservers(): void
+    {
+        CakeSubscription::observe(CakeSubscriptionObserver::class);
+        Cake::observe(CakeObserver::class);
     }
 }

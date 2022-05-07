@@ -13,7 +13,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class CakeRequestedNotification extends Notification implements ShouldQueue
+class CakeIsAvailableNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -52,7 +52,8 @@ class CakeRequestedNotification extends Notification implements ShouldQueue
         return (new MailMessage())
             ->subject('Pedido de bolo')
             ->greeting('Olá!')
-            ->line("Recebemos a sua solicitação de bolo \"$this->cakeName\", no valor de R$ $price.")
-            ->salutation("Atenciosamente,\nEquipe Checklist Fácil");
+            ->line("Temos bolo \"$this->cakeName\" no nosso estoque pelo valor de R$ $price.")
+            ->line('Corra antes que acabe!')
+            ->salutation("Atenciosamente, Equipe ChecklistFácil");
     }
 }
