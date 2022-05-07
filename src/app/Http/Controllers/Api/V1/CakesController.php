@@ -246,6 +246,7 @@ class CakesController extends Controller
             $cake->lockForUpdate()->update($request->validated());
         });
         $cake->load('solicitations');
+        $cake->refresh();
         return new CakeResource($cake);
     }
 
