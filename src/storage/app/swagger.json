@@ -352,7 +352,22 @@
                     "subscriptions": {
                         "type": "array",
                         "items": {
-                            "$ref": "#/components/schemas/CakeSubscriptionResource"
+                            "allOf": [
+                                {
+                                    "properties": {
+                                        "id": {
+                                            "title": "id",
+                                            "type": "integer",
+                                            "format": "int64",
+                                            "example": 1
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/CakeSubscriptionResource"
+                                }
+                            ]
                         }
                     }
                 },

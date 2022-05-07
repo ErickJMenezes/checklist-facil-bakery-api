@@ -67,7 +67,22 @@ use OpenApi\Attributes as OA;
         new OA\Property(
             property: 'subscriptions',
             type: 'array',
-            items: new OA\Items(ref: '#/components/schemas/CakeSubscriptionResource'),
+            items: new OA\Items(
+                allOf: [
+                    new OA\Schema(
+                        properties: [
+                            new OA\Property(
+                                property: 'id',
+                                title: 'id',
+                                type: 'int',
+                                format: 'int64',
+                                example: 1,
+                            ),
+                        ]
+                    ),
+                    new OA\Schema(ref: '#/components/schemas/CakeSubscriptionResource'),
+                ]
+            ),
         ),
     ],
     type: 'object'
