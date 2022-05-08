@@ -9,18 +9,9 @@
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-Route::get('/', fn () => redirect('http://localhost:5555'));
+// A rota "/swagger" é uma rota especial que é capturada pelo nginx, que por sua vez realiza o proxy_pass para o
+// container do swagger-ui.
+Route::get('/', fn () => redirect('/swagger'));
 
 if (app()->environment('local')) {
     Route::get('/mails', fn () => redirect('http://localhost:8025'));

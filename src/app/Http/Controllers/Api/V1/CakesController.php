@@ -159,15 +159,15 @@ class CakesController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     #[OA\Get(
-        path: '/cakes/{id}',
+        path: '/cakes/{cake}',
         operationId: 'getCakeById',
         description: 'Obtém um bolo pelo ID.',
         summary: 'Obtém um bolo pelo ID.',
         tags: ['Bolos'],
         parameters: [
             new OA\Parameter(
-                parameter: 'id',
-                name: 'id',
+                parameter: 'cake',
+                name: 'cake',
                 description: 'ID do bolo.',
                 in: 'path',
                 required: true,
@@ -203,7 +203,7 @@ class CakesController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     #[OA\Patch(
-        path: '/cakes/{id}',
+        path: '/cakes/{cake}',
         operationId: 'updateCakeById',
         description: 'Atualiza um bolo pelo ID. Apenas os campos que forem enviados serão atualizados.',
         summary: 'Atualiza um bolo pelo ID. Apenas os campos que forem enviados serão atualizados.',
@@ -213,8 +213,8 @@ class CakesController extends Controller
         tags: ['Bolos'],
         parameters: [
             new OA\Parameter(
-                parameter: 'id',
-                name: 'id',
+                parameter: 'cake',
+                name: 'cake',
                 description: 'ID do bolo.',
                 in: 'path',
                 required: true,
@@ -255,15 +255,15 @@ class CakesController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     #[OA\Delete(
-        path: '/cakes/{id}',
+        path: '/cakes/{cake}',
         operationId: 'deleteCakeById',
-        description: 'Obtém um bolo pelo ID.',
-        summary: 'Obtém um bolo pelo ID.',
+        description: 'Deleta um bolo pelo ID. A ação também deleta os assinantes do bolo.',
+        summary: 'Deleta um bolo pelo ID.',
         tags: ['Bolos'],
         parameters: [
             new OA\Parameter(
-                parameter: 'id',
-                name: 'id',
+                parameter: 'cake',
+                name: 'cake',
                 description: 'ID do bolo.',
                 in: 'path',
                 required: true,
@@ -286,6 +286,7 @@ class CakesController extends Controller
     )]
     public function destroy(Cake $cake): JsonResponse
     {
+        $cake->subscriptions()->delete();
         $cake->delete();
         return response()->json();
     }

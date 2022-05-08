@@ -9,15 +9,13 @@
 namespace App\Providers;
 
 use App\Models\Cake;
-use App\Models\CakeSubscription;
 use App\Observers\CakeObserver;
-use App\Observers\CakeSubscriptionObserver;
 use Illuminate\Support\ServiceProvider;
 use OpenApi\Attributes as OA;
 
 #[OA\Info(
     version: '1.0.0',
-    description: 'Microserviço para crud de bolos e envio de emails para solicitantes.',
+    description: 'Microserviço para crud de bolos e envio de emails para assinantes.',
     title: 'Checklist Fácil - API Bolos',
 )]
 #[OA\Server(
@@ -65,7 +63,6 @@ class AppServiceProvider extends ServiceProvider
 
     private function initModelObservers(): void
     {
-        CakeSubscription::observe(CakeSubscriptionObserver::class);
         Cake::observe(CakeObserver::class);
     }
 }

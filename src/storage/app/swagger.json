@@ -2,7 +2,7 @@
     "openapi": "3.0.0",
     "info": {
         "title": "Checklist Fácil - API Bolos",
-        "description": "Microserviço para crud de bolos e envio de emails para solicitantes.",
+        "description": "Microserviço para crud de bolos e envio de emails para assinantes.",
         "version": "1.0.0"
     },
     "servers": [
@@ -12,17 +12,18 @@
         }
     ],
     "paths": {
-        "/cakes/{id}/subscriptions": {
+        "/cakes/{cake}/subscriptions": {
             "post": {
                 "tags": [
-                    "Bolos"
+                    "Assinar bolos"
                 ],
                 "summary": "Cria uma nova inscrição para o bolo",
                 "description": "Cria uma nova inscrição para o bolo",
                 "operationId": "createCakeSubscription",
                 "parameters": [
                     {
-                        "name": "id",
+                        "parameter": "cake",
+                        "name": "cake",
                         "in": "path",
                         "description": "ID do bolo",
                         "required": true
@@ -33,26 +34,47 @@
                 },
                 "responses": {
                     "202": {
-                        "description": "Solicitação de bolo em processamento.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "description": "Mensagem de sucesso.",
-                                            "type": "string"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
+                        "$ref": "#/components/responses/ProcessingCakeSubscriptionResponse"
                     },
                     "422": {
                         "$ref": "#/components/responses/UnprocessableEntity"
                     },
-                    "429": {
-                        "description": "Número de solicitações de bolo por minuto excedido."
+                    "404": {
+                        "description": "Bolo não encontrado."
+                    }
+                }
+            }
+        },
+        "/cakes/{cake}/subscriptions/{subscription}": {
+            "delete": {
+                "tags": [
+                    "Assinar bolos"
+                ],
+                "summary": "Remove a inscrição para o bolo",
+                "description": "Remove a inscrição para o bolo",
+                "operationId": "deleteCakeSubscription",
+                "parameters": [
+                    {
+                        "parameter": "cake",
+                        "name": "cake",
+                        "in": "path",
+                        "description": "ID do bolo",
+                        "required": true
+                    },
+                    {
+                        "parameter": "subscription",
+                        "name": "subscription",
+                        "in": "path",
+                        "description": "ID da inscrição",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/CakeSubscriptionDeletedResponse"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/CakeSubscriptionNotFoundResponse"
                     }
                 }
             }
@@ -91,7 +113,7 @@
                 }
             }
         },
-        "/cakes/{id}": {
+        "/cakes/{cake}": {
             "get": {
                 "tags": [
                     "Bolos"
@@ -101,8 +123,8 @@
                 "operationId": "getCakeById",
                 "parameters": [
                     {
-                        "parameter": "id",
-                        "name": "id",
+                        "parameter": "cake",
+                        "name": "cake",
                         "in": "path",
                         "description": "ID do bolo.",
                         "required": true,
@@ -125,13 +147,13 @@
                 "tags": [
                     "Bolos"
                 ],
-                "summary": "Obtém um bolo pelo ID.",
-                "description": "Obtém um bolo pelo ID.",
+                "summary": "Deleta um bolo pelo ID.",
+                "description": "Deleta um bolo pelo ID. A ação também deleta os assinantes do bolo.",
                 "operationId": "deleteCakeById",
                 "parameters": [
                     {
-                        "parameter": "id",
-                        "name": "id",
+                        "parameter": "cake",
+                        "name": "cake",
                         "in": "path",
                         "description": "ID do bolo.",
                         "required": true,
@@ -159,8 +181,8 @@
                 "operationId": "updateCakeById",
                 "parameters": [
                     {
-                        "parameter": "id",
-                        "name": "id",
+                        "parameter": "cake",
+                        "name": "cake",
                         "in": "path",
                         "description": "ID do bolo.",
                         "required": true,
@@ -399,6 +421,54 @@
             }
         },
         "responses": {
+            "ProcessingCakeSubscriptionResponse": {
+                "description": "Solicitação de bolo em processamento.",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "message": {
+                                    "description": "Mensagem de sucesso.",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "CakeSubscriptionDeletedResponse": {
+                "description": "Inscrição removida com sucesso.",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "message": {
+                                    "description": "Mensagem de sucesso.",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "CakeSubscriptionNotFoundResponse": {
+                "description": "Inscrição não encontrada.",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "message": {
+                                    "description": "Mensagem de erro.",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
             "CakeItemCollectionResponse": {
                 "description": "Lista de bolos",
                 "content": {

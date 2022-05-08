@@ -8,11 +8,12 @@ EOF;
 
 $finder = PhpCsFixer\Finder::create()
     ->exclude([
-        'vendor',
+        'vendor/',
         '.phpunit.cache',
-        'app/bootstrap',
-        'app/public',
-        'app/storage',
+        'node_modules',
+        'bootstrap/',
+        'public/',
+        'storage/',
     ])
     ->in(__DIR__);
 

@@ -8,6 +8,7 @@
 
 namespace App\Models;
 
+use App\Events\UserSubscribedToCake;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -21,6 +22,10 @@ class CakeSubscription extends Model implements Auditable
     use Notifiable;
 
     protected $guarded = [];
+
+    protected $dispatchesEvents = [
+        'saved' => UserSubscribedToCake::class,
+    ];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<\App\Models\Cake, \App\Models\CakeSubscription>

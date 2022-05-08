@@ -9,7 +9,9 @@
 namespace Tests\Feature\Http\Controllers\Api\V1;
 
 use App\Models\Cake;
+use App\Models\CakeSubscription;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 /**
@@ -21,6 +23,12 @@ use Tests\TestCase;
 class CakesControllerTest extends TestCase
 {
     use DatabaseTransactions;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        Event::fake();
+    }
 
     public function test_index_must_return_the_paginated_collection_of_cakes(): void
     {
@@ -178,6 +186,15 @@ class CakesControllerTest extends TestCase
     public function test_destroy_must_return_200_when_the_resource_was_deleted(): void
     {
         $cake = Cake::factory()->create();
+        $this->deleteJson(route('api.v1.cakes.destroy', $cake->id))
+            ->assertStatus(200);
+    }
+
+    public function test_destroy_must_return_200_when_the_resource_was_deleted_with_subscribers(): void
+    {
+        $cake = Cake::factory()
+            ->has(CakeSubscription::factory()->count(2), 'subscriptions')
+            ->create();
         $this->deleteJson(route('api.v1.cakes.destroy', $cake->id))
             ->assertStatus(200);
     }
