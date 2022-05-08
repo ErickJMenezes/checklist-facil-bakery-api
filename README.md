@@ -13,25 +13,27 @@ checklist-facil-bakery-api-laradock/
 │
 └───.git/
 │
-└───src/        # Projeto Laravel [9.x]
+└───src/        # Projeto Laravel 9.x
 │
-└───laradock/   # Fork Laradock   [master]
+└───laradock/   # Fork Laradock
 ```
 
 ### Executando o projeto:
 ```shell
-# Execute dentro da pasta laradock:
-# Crie um .env baseado no arquivo .env.development:
+# Execute os seguintes comandos dentro da pasta laradock.
+# Crie um .env baseado no arquivo .env.development, que 
+# está pré-configurado para o ambiente de desenvolvimento:
 cp .env.development .env
 
-# Execute o projeto:
-docker-compose -f docker-compose-dev.yml up -d
+# Levante o projeto:
+docker-compose up -d
 
 # Entre no container do workspace:
-docker-compose -f docker-compose-dev.yml exec -u laradock workspace bash
+docker-compose exec -u laradock workspace bash
 
 # A partir de agora, os seguintes comandos serão executados dentro do container:
-# Copie o .env.example em um novo .env
+# Copie o .env.example em um novo .env.
+# O .env.example está pré-configurado para o ambiente de desenvolvimento.
 cp .env.example .env
 
 # Instale as dependências do projeto:
@@ -40,24 +42,25 @@ composer install
 # Gere uma nova chave de criptografia para o app:
 art key:generate
 
-# Gere o banco de dados, caso o laradock não gere automaticamente:
+# -----------------------------------------------------------
+# O banco de dados será gerado automaticamente no container do mariadb
+# dentro de alguns segundos após o container ser iniciado.
+# Mas você pode criar o banco de dados manualmente, caso necessário:
 mysql -u root -h mariadb -p # A senha é "root"
-
-# Após ter executado o comando acima, você deve estar no terminal do banco de dados.
-# Execute o comando para criar o banco de dados do projeto:
 CREATE DATABASE IF NOT EXISTS checklist_facil_bakery_api;
 exit;
+# -----------------------------------------------------------
 
-# Executando as migrations:
+# Execute as migrations do projeto:
 art migrate;
 
-# Otimize o projeto para desenvolvimento:
-art optimize:clear
+# Gere o cache das rotas, configs, etc...
+art optimize
 ```
 
 # Swagger da API:
 O projeto fornece um swagger com as rotas disponíveis da api.
-Visite `http://localhost` para visualizar o swagger.
+Visite `http://localhost` para visualizar o swagger. A API pode ser completamente testada pela interface do swagger.
 
 # Teste de envio de emails:
 O Projeto fornece um inbox fake para teste de envio de emails. 
@@ -76,10 +79,8 @@ Visite `http://localhost/horizon` para ter acesso ao monitoramento filas.
   - maihog
   - mariadb
   - swagger-ui
-  - laravel-hozizon
+  - laravel-horizon
   - redis
-- Redis
-- MariaDB
 - PHP CS Fixer
 - Laravel Auditing
 - Laravel Horizon
