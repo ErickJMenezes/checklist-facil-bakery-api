@@ -79,12 +79,11 @@ Visite `http://localhost/horizon` para ter acesso ao monitoramento filas.
 - PHP 8.1.x
 - Larastan
 - Laravel Horizon
+- PHP CS Fixer
+- Laravel Auditing
 - Laradock
   - maihog
   - mariadb
   - swagger-ui
   - laravel-horizon
   - redis
-- PHP CS Fixer
-- Laravel Auditing
-- Laravel Horizon
