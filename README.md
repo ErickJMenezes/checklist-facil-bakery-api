@@ -49,7 +49,14 @@ art key:generate
 
 # -----------------------------------------------------------
 # A imagem do MariaDB está configurada para criar um banco de dados automaticamente,
-# mas caso não seja criado, você pode criar um banco de dados manualmente.
+# e ela pode levar um tempo para terminar o processo. Você pode acompanhar o processo
+# visualiando os logs do container.
+
+# Quando o processo tiver finalizado, você verá algo similar ao seguinte 
+# em seu "docker-compose logs mariadb":
+# checklist_facil_bakery_api-mariadb-1  | Version: '10.7.3-MariaDB-1:10.7.3+maria~focal'  socket: '/run/mysqld/mysqld.sock'  port: 3306  mariadb.org binary distribution
+
+# Mas caso o banco de dados não seja criado, você pode criar um manualmente.
 # O container do workspace está configurado para instalar o cli do mysql.
 mysql -u root -h mariadb -p # A senha é "root"
 CREATE DATABASE IF NOT EXISTS checklist_facil_bakery_api;
