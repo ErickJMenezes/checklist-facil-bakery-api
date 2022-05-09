@@ -47,7 +47,10 @@ composer install
 # Gere uma nova chave de criptografia para o app:
 art key:generate
 
-# Crie o banco de dados do projeto:
+# -----------------------------------------------------------
+# A imagem do MariaDB está configurada para criar um banco de dados automaticamente,
+# mas caso não seja criado, você pode criar um banco de dados manualmente.
+# O container do workspace está configurado para instalar o cli do mysql.
 mysql -u root -h mariadb -p # A senha é "root"
 CREATE DATABASE IF NOT EXISTS checklist_facil_bakery_api;
 exit;
