@@ -9,16 +9,12 @@
 namespace App\Jobs;
 
 use App\Models\Cake;
-use App\Notifications\CakeOutOfStockNotification;
-use App\Notifications\CakeIsAvailableNotification;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Notification;
 
 class ProcessCakeSubscription implements ShouldQueue, ShouldBeUnique
 {

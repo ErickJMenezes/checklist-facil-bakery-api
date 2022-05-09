@@ -14,7 +14,6 @@ use App\Notifications\CakeIsAvailableNotification;
 use App\Notifications\CakeOutOfStockNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Support\Facades\Bus;
 
 /**
  * Class CheckCakeStockToNotifySubscribers.
@@ -24,16 +23,6 @@ use Illuminate\Support\Facades\Bus;
 class CheckCakeStockToNotifySubscribers implements ShouldQueue
 {
     use InteractsWithQueue;
-
-    /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
 
     /**
      * Handle the event.

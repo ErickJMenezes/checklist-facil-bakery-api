@@ -15,7 +15,6 @@ use App\Http\Resources\CakeResource;
 use App\Models\Cake;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Support\Facades\DB;
 use OpenApi\Attributes as OA;
 
 /**

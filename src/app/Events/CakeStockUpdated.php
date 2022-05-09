@@ -10,11 +10,10 @@ namespace App\Events;
 
 use App\Models\Cake;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class CakeStockUpdated implements ShouldQueue
+class CakeStockUpdated
 {
     use Dispatchable;
     use InteractsWithSockets;

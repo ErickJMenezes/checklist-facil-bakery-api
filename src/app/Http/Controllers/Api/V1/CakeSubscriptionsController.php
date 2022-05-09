@@ -161,7 +161,8 @@ class CakeSubscriptionsController extends Controller
             return response()->json(status: 404);
         }
 
-        // Aqui poderiamos disparar alguma ação utilizando os eventos de ciclo de vida do Model.
+        // Aqui poderíamos disparar alguma ação utilizando os eventos de ciclo de vida do Model,
+        // como por exemplo, um último email para o usuário que cancelou a inscrição.
         $subscription->delete();
 
         return response()->json([

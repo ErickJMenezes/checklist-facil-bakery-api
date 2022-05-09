@@ -21,17 +21,18 @@ checklist-facil-bakery-api-laradock/
 ### Executando o projeto:
 ```shell
 # Execute os seguintes comandos dentro da pasta laradock.
+
 # Crie um .env baseado no arquivo .env.development, que 
 # está pré-configurado para o ambiente de desenvolvimento:
 cp .env.development .env
 
-# Levante o projeto:
+# Para rodar o projeto:
 docker-compose up -d
 
 # Entre no container do workspace:
 docker-compose exec -u laradock workspace bash
 
-# A partir de agora, os seguintes comandos serão executados dentro do container:
+# A partir de agora, os seguintes comandos serão executados dentro do container workspace:
 # Copie o .env.example em um novo .env.
 # O .env.example está pré-configurado para o ambiente de desenvolvimento.
 cp .env.example .env
@@ -43,19 +44,18 @@ composer install
 art key:generate
 
 # -----------------------------------------------------------
-# O banco de dados será gerado automaticamente no container do mariadb
-# dentro de alguns segundos após o container ser iniciado.
-# Mas você pode criar o banco de dados manualmente, caso necessário:
+# O banco de dados será gerado automaticamente no container do mariadb.
+# Mas você pode criar o banco de dados manualmente, caso o banco não seja criado:
 mysql -u root -h mariadb -p # A senha é "root"
 CREATE DATABASE IF NOT EXISTS checklist_facil_bakery_api;
 exit;
 # -----------------------------------------------------------
 
+# Otimize o projeto para desenvolvimento:
+art optimize:clear
+
 # Execute as migrations do projeto:
 art migrate;
-
-# Gere o cache das rotas, configs, etc...
-art optimize
 ```
 
 # Swagger da API:
