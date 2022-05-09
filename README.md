@@ -82,6 +82,12 @@ Visite `http://localhost/mails` para ter acesso à caixa de emails fake.
 O Laravel Horizon é um serviço que monitora as filas do projeto.
 Visite `http://localhost/horizon` para ter acesso ao monitoramento filas.
 
+# Executando testes unitários e funcionais:
+Dentro do container `workspace`, execute o comando:
+```shell
+art test
+```
+
 # Ferramentas utilizadas
 - Laravel 9.x
 - PHP 8.1.x
