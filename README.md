@@ -47,9 +47,7 @@ composer install
 # Gere uma nova chave de criptografia para o app:
 art key:generate
 
-# -----------------------------------------------------------
-# O banco de dados será gerado automaticamente no container do mariadb.
-# Mas você pode criar o banco de dados manualmente, caso o banco não seja criado:
+# Crie o banco de dados do projeto:
 mysql -u root -h mariadb -p # A senha é "root"
 CREATE DATABASE IF NOT EXISTS checklist_facil_bakery_api;
 exit;
