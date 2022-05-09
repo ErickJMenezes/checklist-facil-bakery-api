@@ -10,15 +10,19 @@ git clone --recurse-submodules https://github.com/ErickJMenezes/checklist-facil-
 ```
 checklist-facil-bakery-api-laradock/
 │   README.md
+│   .gitignore
+│   .gitmodules
 │
 └───.git/
 │
 └───src/        # Projeto Laravel 9.x
 │
-└───laradock/   # Fork Laradock
+└───laradock/   # Laradock customizado para o projeto.
 ```
 
 ### Executando o projeto:
+> Necessário `docker` e `docker-compose` instalados no seu sistema.
+
 ```shell
 # Execute os seguintes comandos dentro da pasta laradock.
 
